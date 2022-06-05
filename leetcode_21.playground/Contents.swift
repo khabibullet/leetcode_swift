@@ -53,6 +53,33 @@ class Solution {
         return newList
     }
     
+    func mergeTwoLists2(_ list1: ListNode?, _ list2: ListNode?) -> ListNode? {
+        if list2 == nil {
+            return list1
+        } else if list1 == nil {
+            return list2
+        }
+        
+        let head = list1!.val < list2!.val ? list1 : list2
+        var currNode1 = head
+        var currNode2 = head === list1 ? list2 : list1
+        var tmpNode1: ListNode?
+        var tmpNode2: ListNode?
+        
+        while currNode2 != nil {
+            while currNode1 != nil && currNode2!.val < currNode1!.val {
+                currNode1 = currNode1!.next
+            }
+            tmpNode1 = currNode1!.next
+            tmpNode2 = currNode2!.next
+            currNode1!.next = currNode2
+            currNode2!.next = tmpNode1
+            currNode2 = tmpNode2
+        }
+        
+        return head
+    }
+    
     func listToArray(_ list: ListNode?) -> [Int] {
         var    newArray: [Int] = []
         var    tmp: ListNode? = list
@@ -87,7 +114,7 @@ var newItem = Solution()
 let list1 = newItem.arrayToList([1, 2, 4])
 let list2 = newItem.arrayToList([1, 3, 4])
 
-let newList = newItem.mergeTwoLists(list1, list2)
+let newList = newItem.mergeTwoLists2(list1, list2)
 let arr = newItem.listToArray(newList)
 
 
