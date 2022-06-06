@@ -21,6 +21,9 @@ public class ListNode {
 }
 
 class Solution {
+    
+    // Method for merging two listst with memory allocation
+    
     func mergeTwoLists(_ list1: ListNode?, _ list2: ListNode?) -> ListNode? {
         var tmpNodeNew: ListNode?
         var tmpNodePrev: ListNode?
@@ -53,6 +56,8 @@ class Solution {
         return newList
     }
     
+    // Method for merging two lists w/o memory allocation
+    
     func mergeTwoLists2(_ list1: ListNode?, _ list2: ListNode?) -> ListNode? {
         if list2 == nil {
             return list1
@@ -62,21 +67,18 @@ class Solution {
         
         let head = list1!.val < list2!.val ? list1 : list2
         var currNode1 = head
-        var currNode2 = head === list1 ? list2 : list1
-        var tmpNode1: ListNode?
-        var tmpNode2: ListNode?
+        var currNode2 = list1!.val < list2!.val ? list2 : list1
+        var tmpNode: ListNode?
         
         while currNode2 != nil {
-            while currNode1 != nil && currNode2!.val < currNode1!.val {
-                currNode1 = currNode1!.next
+            while currNode1!.next != nil && currNode2!.val >= currNode1!.next!.val {
+            	currNode1 = currNode1!.next
             }
-            tmpNode1 = currNode1!.next
-            tmpNode2 = currNode2!.next
+            tmpNode = currNode2!.next
+            currNode2!.next = currNode1!.next
             currNode1!.next = currNode2
-            currNode2!.next = tmpNode1
-            currNode2 = tmpNode2
+            currNode2 = tmpNode
         }
-        
         return head
     }
     
@@ -111,8 +113,8 @@ class Solution {
 
 
 var newItem = Solution()
-let list1 = newItem.arrayToList([1, 2, 4])
-let list2 = newItem.arrayToList([1, 3, 4])
+let list1 = newItem.arrayToList([6])
+let list2 = newItem.arrayToList([4])
 
 let newList = newItem.mergeTwoLists2(list1, list2)
 let arr = newItem.listToArray(newList)
